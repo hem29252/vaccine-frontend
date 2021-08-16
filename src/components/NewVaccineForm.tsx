@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { map, longdo, LondogMapNewVaccine } from "./LondogMapNewVaccine";
-import { Button, Row, Col, Input, InputNumber, Form, Checkbox } from "antd";
+import { Button, Input, InputNumber, Form } from "antd";
 import ListSearch from "./ListSearch";
 import { typeNewVaccine } from "../dataType";
 import { useHistory } from "react-router-dom";

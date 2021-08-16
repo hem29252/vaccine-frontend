@@ -3,6 +3,7 @@ import { map, longdo, LongdoMap } from "./LongdoMap";
 import { typeVaccine, getCurrentLocation } from "../dataType";
 import { Modal, Button } from "antd";
 import axios from "axios";
+import RouteDetailsMap from "./RouteDetailsMap"; 
 
 const DisplayMap = () => {
   // state
@@ -46,16 +47,17 @@ const DisplayMap = () => {
     setIsModalVisible(false);
   };
 
-  // initial map
+  // init map
   const initMap = async () => {
     map.Layers.setBase(longdo.Layers.GRAY);
     map.zoom(12);
     setMarkerUeserCurrentLocation();
-    let res = await axios("http://localhost:4000/api/vaccine");
+    let res = await axios("http://localhost:4000/api/vaccine/");
+    console.log(res.data)
     setMarker(res.data);
   };
 
-  // initial user current location
+  // init user current location
   const setMarkerUeserCurrentLocation = async () => {
     let userMarker: any = null;
     let location: any = await getCurrentLocation();
@@ -63,7 +65,7 @@ const DisplayMap = () => {
     userMarker = new longdo.Marker(
       { lon: location[1], lat: location[0] },
       {
-        title: "Victory monument",
+        title: "My location",
         detail: "I'm here",
       }
     );
@@ -116,6 +118,7 @@ const DisplayMap = () => {
         }
       });
     });
+    
   };
 
   // route handler
@@ -145,6 +148,9 @@ const DisplayMap = () => {
       <div style={{ height: "400px" }}>
         <LongdoMap id="longdo-map" mapKey={mapKey} callback={initMap} />
       </div>
+
+      <RouteDetailsMap latDest={latDestination} lonDest={ lngDestination } map={map} longdo={longdo} />
+       
       <Modal
         visible={isModalVisible}
         title="Vaccine Location"
