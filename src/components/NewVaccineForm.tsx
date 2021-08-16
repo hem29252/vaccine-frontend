@@ -88,7 +88,7 @@ const NewVaccineForm = () => {
             name="vaccine"
             rules={[{ required: true, message: "Please input your vaccine!" }]}
           >
-            <Input />
+            <Input placeholder="Your vaccine name"/>
           </Form.Item>
 
           <Form.Item
@@ -96,7 +96,7 @@ const NewVaccineForm = () => {
             name="amount"
             rules={[{ required: true, message: "Please input your amount!" }]}
           >
-            <InputNumber style={{ width: "100%"}} min={0} max={100000000} />
+            <InputNumber style={{ width: "100%"}} min={0} defaultValue={0} max={100000000} />
           </Form.Item>
 
           <Form.Item
@@ -106,7 +106,7 @@ const NewVaccineForm = () => {
               { required: true, message: "Please input your description!" },
             ]}
           >
-            <TextArea />
+            <TextArea placeholder='Your description' rows={4}/>
           </Form.Item>
 
           <Form.Item label="Select Address" name="search">
