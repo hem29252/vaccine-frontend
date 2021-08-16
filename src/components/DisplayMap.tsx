@@ -51,7 +51,7 @@ const DisplayMap = () => {
     map.Layers.setBase(longdo.Layers.GRAY);
     map.zoom(12);
     setMarkerUeserCurrentLocation();
-    let res = await axios("http://localhost:3030/back-end/vaccine");
+    let res = await axios("http://localhost:4000/api/vaccine");
     setMarker(res.data);
   };
 

@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { map, longdo, LondogMapNewVaccine } from "./LondogMapNewVaccine";
-import { Button, Row, Col, Input, InputNumber } from "antd";
+import { Button, Row, Col, Input, InputNumber, Form, Checkbox } from "antd";
 import ListSearch from "./ListSearch";
 import { typeNewVaccine } from "../dataType";
 import { useHistory } from "react-router-dom";
+import { SearchOutlined } from "@ant-design/icons";
 
 const NewVaccineForm = () => {
   const mapKey: string = "f065b431c7c8afab7264d32ca7a8a11e";
@@ -12,13 +13,10 @@ const NewVaccineForm = () => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [lat, setLat] = useState<number>(0);
   const [lon, setLon] = useState<number>(0);
-  const vaccineNameRef = useRef<any>();
-  const amountDosageRef = useRef<any>();
-  const descriptionRef = useRef<any>();
   const addressRef = useRef<any>();
   const history = useHistory();
 
-  // initial map
+  // init map
   const initMap = () => {
     map.Layers.setBase(longdo.Layers.GRAY);
     map.zoom(5);
@@ -30,6 +28,32 @@ const NewVaccineForm = () => {
       `https://search.longdo.com/mapsearch/json/search?keyword=${e.target.value}&t=100&key=${mapKey}`
     );
     setSuggestions(res.data.data);
+  };
+
+  // sunmit form success
+  const onFinish = async (values: any) => {
+    const newVaccine: typeNewVaccine = {
+      user_id: "1623ec45-6a6a-44c0-a577-e12439035818",
+      name: values.vaccine,
+      amount: Number(values.amount),
+      email: "one@example.com",
+      tel: "00000000",
+      lat: lat,
+      long: lon,
+      description: values.description,
+    };
+
+    await axios.post(
+      "http://localhost:4000/api/vaccine",
+      JSON.stringify(newVaccine),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    history.push("/");
+  };
+
+  // submit form Faile
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
   };
 
   // select item address
@@ -49,88 +73,67 @@ const NewVaccineForm = () => {
     setSuggestions([]);
   };
 
-  // add new vaccine handler
-  const addNewVaccineHandler = async () => {
-    const newVaccine: typeNewVaccine = {
-      user_id: 1,
-      name: vaccineNameRef.current.state.value,
-      amount: Number(amountDosageRef.current.value),
-      email: "one@example.com",
-      tel: "00000000",
-      lat: lat,
-      long: lon,
-      description: descriptionRef.current.resizableTextArea.props.value,
-    };
-
-    await axios.post(
-      "http://localhost:3030/back-end/vaccine",
-      JSON.stringify(newVaccine),
-      { headers: { "Content-Type": "application/json" } }
-    );
-    history.push("/");
-  };
-
   return (
     <div>
-      <Row>
-        <Col span={12} offset={6}>
-          <Row>
-            <Col span={24}>
-              <h4 style={{ textAlign: "left" }}>Valccine name</h4>
-              <Input ref={vaccineNameRef} />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "10px" }}>
-            <Col span={24}>
-              <h4 style={{ textAlign: "left" }}>Amount dosage</h4>
-              <InputNumber
-                ref={amountDosageRef}
-                min={1}
-                max={10000000}
-                defaultValue={1}
-                style={{ float: "left", width: "100%" }}
+      <div style={{ padding: "10px" }}>
+        <Form
+          name="basic"
+          labelCol={{ span: 7 }}
+          wrapperCol={{ span: 12 }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            label="Vaccine"
+            name="vaccine"
+            rules={[{ required: true, message: "Please input your vaccine!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Amount"
+            name="amount"
+            rules={[{ required: true, message: "Please input your amount!" }]}
+          >
+            <InputNumber style={{ width: "100%"}} min={0} max={100000000} />
+          </Form.Item>
+
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              { required: true, message: "Please input your description!" },
+            ]}
+          >
+            <TextArea />
+          </Form.Item>
+
+          <Form.Item label="Select Address" name="search">
+            <div style={{ height: "250px" }}>
+              <LondogMapNewVaccine
+                id="longdo-map"
+                mapKey={mapKey}
+                callback={initMap}
               />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "10px" }}>
-            <Col span={24}>
-              <h4 style={{ textAlign: "left" }}>Description</h4>
-              <TextArea ref={descriptionRef} />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "10px" }}>
-            <Col span={24}>
-              <h4 style={{ textAlign: "left" }}>Address</h4>
-              <div style={{ height: "200px" }}>
-                <LondogMapNewVaccine
-                  id="longdo-map"
-                  mapKey={mapKey}
-                  callback={initMap}
-                />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <div style={{ marginTop: "5px", marginBottom: "5px" }}>
-                <Input
-                  onKeyUp={onKeyUpSeach.bind(this)}
-                  placeholder="search address"
-                  ref={addressRef}
-                />
-                <ListSearch selectItem={selectSearchItem} data={suggestions} />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Button type="primary" onClick={addNewVaccineHandler}>
-                Add Vaccine
-              </Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </div>
+            <Input
+              size="large"
+              prefix={<SearchOutlined />}
+              onKeyUp={onKeyUpSeach.bind(this)}
+              placeholder="search address"
+              ref={addressRef}
+            />
+            <ListSearch selectItem={selectSearchItem} data={suggestions} />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Save
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
       <div style={{ height: "600px" }}></div>
     </div>
   );

@@ -1,6 +1,6 @@
 export type typeVaccine = {
   id: number;
-  user_id: number;
+  user_id: any;
   name: string;
   amount: number;
   email: string;
@@ -12,7 +12,7 @@ export type typeVaccine = {
 };
 
 export type typeNewVaccine = {
-  user_id: number;
+  user_id: any;
   name: string;
   amount: number;
   email: string;
