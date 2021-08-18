@@ -3,7 +3,7 @@ import { Modal, Button, Input, InputNumber, Form } from "antd";
 import ListSearch from "./ListSearch";
 import axios from "axios";
 import { map, longdo } from "./LongdoMapEdit";
-import './EditVaccineForm.css'
+import "./EditVaccineForm.css";
 
 import { EditTwoTone, SearchOutlined } from "@ant-design/icons";
 
@@ -100,7 +100,7 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
       >
         <Form
           ref={FormRef}
-          name="basic"
+          name="EditVaccine"
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 16 }}
           onFinish={onFinish}
@@ -172,7 +172,6 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
               {children}
             </div>
           </Form.Item>
-
         </Form>
       </Modal>
     </>

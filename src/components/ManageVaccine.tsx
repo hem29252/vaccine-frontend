@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { typeVaccine } from "../dataType";
 import axios from "axios";
 import { Table, Button, Modal } from "antd";
-import {
-  DeleteTwoTone,
-  EditTwoTone,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { DeleteTwoTone, ExclamationCircleOutlined } from "@ant-design/icons";
 import EditVaccineForm from "./EditVaccineForm";
 import { map, longdo, LongdoMapEdit } from "./LongdoMapEdit";
 const ManageVaccine = () => {
   const mapKey: string = "f065b431c7c8afab7264d32ca7a8a11e";
   const [vaccine, setVaccine] = useState<object[]>([]);
-
   const columns = [
     {
       title: <h4 style={{ textAlign: "center" }}>Name</h4>,
@@ -43,7 +37,7 @@ const ManageVaccine = () => {
     },
   ];
 
-  const  confirmDelete = (id: string) => {
+  const confirmDelete = (id: string) => {
     Modal.confirm({
       title: "Continue Remove",
       icon: <ExclamationCircleOutlined />,
@@ -51,23 +45,26 @@ const ManageVaccine = () => {
       okText: "Ok",
       cancelText: "Cancel",
       onOk: async () => {
-       let res = await axios.delete(`http://localhost:4000/api/vaccine/${id}`, {
-          headers: { "Content-Type": "application/json" },
-        });
+        let res = await axios.delete(
+          `http://localhost:4000/api/vaccine/${id}`,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
         (window as any).location.reload();
       },
     });
-  }
+  };
 
-  const editVaccine = async (body:any, id:any) => {
+  const editVaccine = async (body: any, id: any) => {
     let res = await axios.put(`http://localhost:4000/api/vaccine/${id}`, body, {
       headers: { "Content-Type": "application/json" },
     });
     (window as any).location.reload();
-  }
+  };
 
   const getVaccine = async () => {
-    let testUserId = '79803a03-c848-449f-a6a8-ce326c7d0669'
+    let testUserId = "79803a03-c848-449f-a6a8-ce326c7d0669";
     let res = await axios(`http://localhost:4000/api/vaccine/${testUserId}`);
     let vaccineList: object[] = [];
     res.data.forEach((item: any, index: any) => {
@@ -92,7 +89,7 @@ const ManageVaccine = () => {
         createAt: item.createAt,
         action: (
           <div>
-            <EditVaccineForm editVaccineHandle={ editVaccine } vaccine={item}>
+            <EditVaccineForm editVaccineHandle={editVaccine} vaccine={item}>
               <LongdoMapEdit
                 id={"longdo-map" + index}
                 mapKey={mapKey}
