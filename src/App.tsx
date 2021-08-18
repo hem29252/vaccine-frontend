@@ -4,6 +4,7 @@ import "./App.css";
 import DisplayMap from "./components/DisplayMap";
 import NewVaccineForm from "./components/NewVaccineForm";
 import Header from "./components/Header";
+import ManageVaccine from "./components/ManageVaccine";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <div>
           <Route exact path="/" component={DisplayMap} />
           <Route exact path="/new-vaccine" component={NewVaccineForm} />
+          <Route exact path="/edit-vaccine" component={ManageVaccine} />
         </div>
       </div>
     </BrowserRouter>

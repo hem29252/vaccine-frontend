@@ -9,6 +9,10 @@ const Header = () => {
       <NavLink exact to="/new-vaccine">
         Add
       </NavLink>
+      {" "} | {" "}
+      <NavLink exact to="/edit-vaccine">
+        Edit 
+      </NavLink>
     </div>
   );
 };

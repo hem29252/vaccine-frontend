@@ -7,6 +7,7 @@ import RouteDetailsMap from "./RouteDetailsMap";
 
 const DisplayMap = () => {
   // state
+  const [vaccine, setVaccine] = useState<typeVaccine[]>([])
   const [country, setCountry] = useState<string | null>(null);
   const [geocode, setGeocode] = useState<string | null>(null);
   const [province, setProvince] = useState<string | null>(null);
@@ -55,6 +56,7 @@ const DisplayMap = () => {
     let res = await axios("http://localhost:4000/api/vaccine/");
     console.log(res.data)
     setMarker(res.data);
+    setVaccine([...res.data])
   };
 
   // init user current location
