@@ -3,6 +3,7 @@ import { Modal, Button, Input, InputNumber, Form } from "antd";
 import ListSearch from "./ListSearch";
 import axios from "axios";
 import { map, longdo } from "./LongdoMapEdit";
+import './EditVaccineForm.css'
 
 import { EditTwoTone, SearchOutlined } from "@ant-design/icons";
 
@@ -153,12 +154,12 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
           >
             <TextArea
               placeholder="Your description"
-              rows={4}
+              rows={3}
               defaultValue={vaccine.description}
             />
           </Form.Item>
 
-          <Form.Item label="Select Address" name="search">
+          <Form.Item label="Address" name="search">
             <Input
               prefix={<SearchOutlined />}
               size="large"
@@ -167,10 +168,11 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
               ref={addressRef}
             />
             <ListSearch selectItem={selectSearchItem} data={suggestions} />
-            <div id="box-map" style={{ height: "250px", marginTop: "2px" }}>
+            <div id="box-map" style={{ height: "15em", marginTop: "2px" }}>
               {children}
             </div>
           </Form.Item>
+
         </Form>
       </Modal>
     </>

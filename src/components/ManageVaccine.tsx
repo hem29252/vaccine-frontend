@@ -54,7 +54,7 @@ const ManageVaccine = () => {
        let res = await axios.delete(`http://localhost:4000/api/vaccine/${id}`, {
           headers: { "Content-Type": "application/json" },
         });
-        getVaccine();
+        (window as any).location.reload();
       },
     });
   }
@@ -67,7 +67,8 @@ const ManageVaccine = () => {
   }
 
   const getVaccine = async () => {
-    let res = await axios("http://localhost:4000/api/vaccine/");
+    let testUserId = '79803a03-c848-449f-a6a8-ce326c7d0669'
+    let res = await axios(`http://localhost:4000/api/vaccine/${testUserId}`);
     let vaccineList: object[] = [];
     res.data.forEach((item: any, index: any) => {
       // init map
