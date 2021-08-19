@@ -180,7 +180,6 @@ const ManageVaccine = () => {
         columns={columns}
         bordered={true}
         dataSource={vaccine}
-        size="middle"
       />
     </div>
   );

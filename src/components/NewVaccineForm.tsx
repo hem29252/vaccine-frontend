@@ -69,7 +69,7 @@ const NewVaccineForm = () => {
         title: "I am here",
       }
     );
-    addressRef.current.state.value = "";
+    addressRef.current.state.value = item.name;
     setSuggestions([]);
   };
 
