@@ -27,7 +27,7 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
   };
 
   const handleOk = () => {
-    //setIsModalVisible(false);
+    setIsModalVisible(false);
     FormRef.current.submit();
   };
 
