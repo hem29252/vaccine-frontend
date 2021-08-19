@@ -82,7 +82,6 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
 
   return (
     <>
-      <div id="maps"></div>
       <Button
         onClick={() => {
           showModal();

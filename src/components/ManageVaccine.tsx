@@ -56,6 +56,43 @@ const ManageVaccine = () => {
     });
   };
 
+  const infoVaccine = async (item: any) => {
+    let res = await axios(
+      `https://api.longdo.com/map/services/address?lon=${item.long}&lat=${item.lat}&key=${mapKey}`
+    );
+    let address = res.data;
+    Modal.info({
+      title: <h4>{item.name}</h4>,
+      icon: <ExclamationCircleOutlined />,
+      content: (
+        <div>
+          <p>
+            <span>Vaccine Name: {item.name} </span>
+            <br />
+            <span>Amount: {item.amount}</span>
+            <br />
+            <span>Description: {item.description}</span>
+            <br />
+            <span>Email: {item.email}</span>
+            <br />
+            <span>Tel: {item.tel}</span>
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>ที่อยู่</span>
+            <br />
+            <span>
+              {address.road} {address.subdistrict} {address.district}{" "}
+              {address.province} {address.country}{" "}
+            </span>
+            <br />
+          </p>
+        </div>
+      ),
+      okText: "Ok",
+      cancelText: "Cancel",
+    });
+  };
+
   const editVaccine = async (body: any, id: any) => {
     let res = await axios.put(`http://localhost:4000/api/vaccine/${id}`, body, {
       headers: { "Content-Type": "application/json" },
@@ -89,6 +126,21 @@ const ManageVaccine = () => {
         createAt: item.createAt,
         action: (
           <div>
+            {/* button info */}
+            <Button
+              onClick={() => {
+                infoVaccine(item);
+              }}
+              type="link"
+              icon={
+                <ExclamationCircleOutlined
+                  twoToneColor="#FF0000"
+                  style={{ fontSize: "30px" }}
+                />
+              }
+            />
+
+            {/*  button edit */}
             <EditVaccineForm editVaccineHandle={editVaccine} vaccine={item}>
               <LongdoMapEdit
                 id={"longdo-map" + index}
@@ -96,6 +148,8 @@ const ManageVaccine = () => {
                 callback={initMap}
               />
             </EditVaccineForm>
+
+            {/*  button delete */}
             <Button
               onClick={() => {
                 confirmDelete(item.id);
