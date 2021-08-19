@@ -4,7 +4,6 @@ import ListSearch from "./ListSearch";
 import axios from "axios";
 import { map, longdo } from "./LongdoMapEdit";
 import "./EditVaccineForm.css";
-
 import { EditTwoTone, SearchOutlined } from "@ant-design/icons";
 
 type Props = {
@@ -59,7 +58,7 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
   // search address keyup
   const onKeyUpSeach = async (e: any) => {
     let res = await axios.get(
-      `https://search.longdo.com/mapsearch/json/search?keyword=${e.target.value}&t=100&key=${mapKey}`
+      `https://search.longdo.com/mapsearch/json/search?keyword=${e.target.value}&limit=100&key=${mapKey}`
     );
     setSuggestions(res.data.data);
   };

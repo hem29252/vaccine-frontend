@@ -25,7 +25,7 @@ const NewVaccineForm = () => {
   // search address keyup
   const onKeyUpSeach = async (e: any) => {
     let res = await axios.get(
-      `https://search.longdo.com/mapsearch/json/search?keyword=${e.target.value}&t=100&key=${mapKey}`
+      `https://search.longdo.com/mapsearch/json/search?keyword=${e.target.value}&limit=100&key=${mapKey}`
     );
     setSuggestions(res.data.data);
   };
