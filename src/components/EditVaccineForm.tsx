@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Button, Input, InputNumber, Form } from "antd";
 import ListSearch from "./ListSearch";
 import axios from "axios";
@@ -22,8 +22,22 @@ const EditVaccineForm = ({ vaccine, editVaccineHandle, children }: Props) => {
   const addressRef = useRef<any>();
   const FormRef = useRef<any>();
 
+  const setAddress = async () => {
+    let res = await axios(
+      `https://api.longdo.com/map/services/address?lon=${vaccine.long}&lat=${vaccine.lat}&key=${mapKey}`
+    );
+    let address:string = ''
+    if(res.data.road) address+=` ${res.data.road}`
+    if(res.data.subdistrict) address+=` ${res.data.subdistrict}`
+    if(res.data.district) address+=` ${res.data.district}`
+    if(res.data.province) address+=` ${res.data.province}`
+    addressRef.current.state.value = address;
+    setSuggestions([]);
+  };
+  
   const showModal = () => {
     setIsModalVisible(true);
+    setAddress()
   };
 
   const handleOk = () => {
